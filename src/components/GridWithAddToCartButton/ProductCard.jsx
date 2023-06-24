@@ -13,17 +13,20 @@ import {
 import { Rating } from "./Rating";
 import { FavouriteButton } from "./FavouriteButton";
 import { PriceTag } from "./PriceTag";
+import { FiLogIn } from "react-icons/fi";
+import { useState } from "react";
 
 export const ProductCard = (props) => {
-  const { product, rootProps } = props;
-  const { title, images, price, salePrice, rating } = product;
+  const { product, cartList, onAdd, rootProps } = props;
+  const { id, title, images, price, salePrice, rating } = product;
+
   return (
     <Stack
       spacing={{
         base: "4",
         md: "5",
       }}
-      {...rootProps}
+      // {...rootProps}
     >
       <Box position="relative">
         <AspectRatio ratio={4 / 3}>
@@ -63,16 +66,16 @@ export const ProductCard = (props) => {
         </HStack>
       </Stack>
       <Stack align="center">
-        <Button colorScheme="teal" width="full">
+        <Button colorScheme="teal" width="full" onClick={() => onAdd()}>
           Add to cart
         </Button>
-        <Link
+        {/* <Link
           textDecoration="underline"
           fontWeight="medium"
           color={useColorModeValue("gray.600", "gray.400")}
         >
           Quick shop
-        </Link>
+        </Link> */}
       </Stack>
     </Stack>
   );

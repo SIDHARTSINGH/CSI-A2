@@ -27,16 +27,20 @@ const QuantitySelect = (props) => {
 
 export const CartItem = (props) => {
   const {
-    isGiftWrapping,
-    name,
-    description,
-    quantity,
-    imageUrl,
+    // title,
+    // description,
+    // quantity,
+    // images,
+    // price,
     currency,
-    price,
     onChangeQuantity,
     onClickDelete,
+
+    product,
+    quantity,
   } = props;
+  const { title, description, image, images, price } = product;
+  console.log(product);
   return (
     <Flex
       direction={{
@@ -46,12 +50,7 @@ export const CartItem = (props) => {
       justify="space-between"
       align="center"
     >
-      <CartProductMeta
-        name={name}
-        description={description}
-        image={imageUrl}
-        isGiftWrapping={isGiftWrapping}
-      />
+      <CartProductMeta title={title} description={description} image={image} />
 
       {/* Desktop */}
       <Flex
@@ -63,14 +62,14 @@ export const CartItem = (props) => {
         }}
       >
         <QuantitySelect
-          value={quantity}
+          value={parseInt(quantity)}
           onChange={(e) => {
             onChangeQuantity?.(+e.currentTarget.value);
           }}
         />
         <PriceTag price={price} currency={currency} />
         <CloseButton
-          aria-label={`Delete ${name} from cart`}
+          aria-label={`Delete ${title} from cart`}
           onClick={onClickDelete}
         />
       </Flex>
