@@ -28,7 +28,9 @@ export const CartProductMeta = (props) => {
         <Stack spacing="0.5">
           <Text fontWeight="medium">{title}</Text>
           <Text color={mode("gray.600", "gray.400")} fontSize="sm">
-            {description}
+            {description.length <= 60
+              ? description
+              : description.substring(0, 60) + "..."}
           </Text>
         </Stack>
 

@@ -7,11 +7,11 @@ import {
   Stack,
   useColorModeValue as mode,
 } from "@chakra-ui/react";
+import { Link as RouterLink } from "react-router-dom";
 import { CartItem } from "./CartItem";
 import { CartOrderSummary } from "./CartOrderSummary";
 
-export const Cart = ({ cartList }) => {
-  console.log(cartList);
+export const Cart = ({ cartList, onChangeQuantity, onClickDelete }) => {
   return (
     <>
       <Box
@@ -57,24 +57,32 @@ export const Cart = ({ cartList }) => {
             </Heading>
 
             <Stack spacing="6">
-              {/* {cartList.map((item) => (
+              {cartList.map((item) => (
                 <CartItem
                   key={item.product.id}
                   {...item.product}
                   quantity={item.quantity}
+                  onChangeQuantity={(type, id) => onChangeQuantity(type, id)}
+                  onClickDelete={(id) => onClickDelete(id)}
                 />
-              ))} */}
-              {cartList[1] && (
-                <CartItem key={1} {...cartList[1]} quantity={cartList[1]} />
-              )}
+              ))}
             </Stack>
           </Stack>
 
           <Flex direction="column" align="center" flex="1">
-            <CartOrderSummary />
+            <CartOrderSummary
+              quantity={cartList.reduce(
+                (acc, item) => acc + item.product.price * item.quantity,
+                0
+              )}
+            />
             <HStack mt="6" fontWeight="semibold">
               <p>or</p>
-              <Link color={mode("teal.500", "teal.200")}>
+              <Link
+                as={RouterLink}
+                to={"/products"}
+                color={mode("teal.500", "teal.200")}
+              >
                 Continue shopping
               </Link>
             </HStack>

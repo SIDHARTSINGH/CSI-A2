@@ -9,19 +9,18 @@ import { Cart } from "./components/CartWithDivider/Cart";
 import { Products } from "./components/GridWithAddToCartButton/Products";
 import { Home } from "./components/Home";
 import { products } from "./components/GridWithAddToCartButton/_data";
-import { CartItem } from "./components/CartWithDivider/CartItem";
 
 function App() {
   const [cartList, setCartList] = useState([]);
 
   const handleAddToCart = (productId) => {
-    console.log("Added Product: ", productId);
-
     let index = cartList.findIndex(
       (cartItem) => cartItem.product.id === productId
     );
-    let addProduct = products.filter((product) => product.id === productId);
-    console.log("Added Product: ", addProduct);
+    let addProduct = products.find((product) => product.id === productId);
+
+    // console.log("ProductId: ", productId, " Added Product: ", addProduct);
+
     if (index === -1) {
       setCartList([...cartList, { product: addProduct, quantity: 1 }]);
       // console.log(cartList);
@@ -34,6 +33,29 @@ function App() {
     }
   };
 
+  const handleChangeQuantity = (type, productId) => {
+    // console.log("handle", type, "to quantity  of product", productId);
+
+    let index = cartList.findIndex((item) => item.product.id === productId);
+    let updatedCartList = [...cartList];
+
+    if (type === "increment")
+      updatedCartList[index].quantity = cartList[index].quantity + 1;
+    else updatedCartList[index].quantity = cartList[index].quantity - 1;
+
+    setCartList(updatedCartList);
+  };
+
+  const handleDeleteCartItem = (productId) => {
+    // console.log("handle delete of product", productId);
+
+    let updatedCartList = cartList.filter(
+      (item) => item.product.id !== productId
+    );
+
+    setCartList(updatedCartList);
+  };
+
   return (
     <ChakraProvider>
       <Navbar />
@@ -44,7 +66,18 @@ function App() {
           exact
         />
         <Route path="/about" Component={""} exact />
-        <Route path="/cart" element={<Cart cartList={cartList} />} exact />
+        <Route
+          path="/cart"
+          element={
+            <Cart
+              cartList={cartList}
+              // Both, Arrow function & referencing function works
+              onChangeQuantity={(type, id) => handleChangeQuantity(type, id)}
+              onClickDelete={handleDeleteCartItem}
+            />
+          }
+          exact
+        />
         <Route path="/" Component={Home} exact />
       </Routes>
     </ChakraProvider>
@@ -52,26 +85,3 @@ function App() {
 }
 
 export default App;
-
-{
-  /* <Box
-        maxW="7xl"
-        mx="auto"
-        px={{
-          base: "4",
-          md: "8",
-          lg: "12",
-        }}
-        py={{
-          base: "6",
-          md: "8",
-          lg: "12",
-        }}
-      >
-        <ProductGrid>
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </ProductGrid>
-      </Box> */
-}

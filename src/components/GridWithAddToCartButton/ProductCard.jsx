@@ -69,13 +69,13 @@ export const ProductCard = (props) => {
         <Button colorScheme="teal" width="full" onClick={() => onAdd()}>
           Add to cart
         </Button>
-        {/* <Link
+        <Link
           textDecoration="underline"
           fontWeight="medium"
           color={useColorModeValue("gray.600", "gray.400")}
         >
           Quick shop
-        </Link> */}
+        </Link>
       </Stack>
     </Stack>
   );

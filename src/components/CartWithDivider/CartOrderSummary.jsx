@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { FaArrowRight } from "react-icons/fa";
 import { formatPrice } from "./PriceTag";
+
 const OrderSummaryItem = (props) => {
   const { label, value, children } = props;
   return (
@@ -21,13 +22,17 @@ const OrderSummaryItem = (props) => {
   );
 };
 
-export const CartOrderSummary = () => {
+export const CartOrderSummary = ({ quantity }) => {
+  // console.log(quantity, "in cartordersummary");
+
   return (
     <Stack spacing="8" borderWidth="1px" rounded="lg" padding="8" width="full">
       <Heading size="md">Order Summary</Heading>
 
       <Stack spacing="6">
-        <OrderSummaryItem label="Subtotal" value={formatPrice(597)} />
+        <OrderSummaryItem label="Subtotal">
+          {formatPrice(quantity)}
+        </OrderSummaryItem>
         <OrderSummaryItem label="Shipping + Tax">
           <Link href="#" textDecor="underline">
             Calculate shipping
@@ -43,7 +48,7 @@ export const CartOrderSummary = () => {
             Total
           </Text>
           <Text fontSize="xl" fontWeight="extrabold">
-            {formatPrice(597)}
+            {formatPrice(quantity)}
           </Text>
         </Flex>
       </Stack>
