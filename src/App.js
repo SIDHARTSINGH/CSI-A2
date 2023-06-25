@@ -39,9 +39,16 @@ function App() {
     let index = cartList.findIndex((item) => item.product.id === productId);
     let updatedCartList = [...cartList];
 
-    if (type === "increment")
+    if (type === "increment") {
       updatedCartList[index].quantity = cartList[index].quantity + 1;
-    else updatedCartList[index].quantity = cartList[index].quantity - 1;
+    } else if (type === "decrement") {
+      if (cartList[index].quantity - 1 === 0) {
+        handleDeleteCartItem(productId);
+        return;
+      } else {
+        updatedCartList[index].quantity = cartList[index].quantity - 1;
+      }
+    }
 
     setCartList(updatedCartList);
   };
